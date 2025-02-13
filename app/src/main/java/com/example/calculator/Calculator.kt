@@ -4,11 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -23,6 +24,63 @@ import androidx.compose.ui.unit.sp
 import com.example.calculator.ui.theme.LightGray
 import com.example.calculator.ui.theme.MediumGray
 import com.example.calculator.ui.theme.Orange
+
+val buttons = listOf(
+    Button(
+        symbol = "AC", color = LightGray, weight = 1f, action = CalculatorAction.Clear
+    ),
+    Button(
+        symbol = "Del", color = MediumGray, weight = 1f, action = CalculatorAction.Delete
+    ),
+    Button(
+        symbol = "^",
+        color = Orange,
+        weight = 1f,
+        action = CalculatorAction.Operation(CalculatorOperation.Power)
+    ),
+    Button(
+        symbol = "/",
+        color = Orange,
+        weight = 1f,
+        action = CalculatorAction.Operation(CalculatorOperation.Divide)
+    ),
+
+    Button(symbol = "7", color = MediumGray, weight = 1f, action = CalculatorAction.Number(7)),
+    Button(symbol = "8", color = MediumGray, weight = 1f, action = CalculatorAction.Number(8)),
+    Button(symbol = "9", color = MediumGray, weight = 1f, action = CalculatorAction.Number(9)),
+    Button(
+        symbol = "x",
+        color = Orange,
+        weight = 1f,
+        action = CalculatorAction.Operation(CalculatorOperation.Multiply)
+    ),
+
+    Button(symbol = "4", color = MediumGray, weight = 1f, action = CalculatorAction.Number(4)),
+    Button(symbol = "5", color = MediumGray, weight = 1f, action = CalculatorAction.Number(5)),
+    Button(symbol = "6", color = MediumGray, weight = 1f, action = CalculatorAction.Number(6)),
+    Button(
+        symbol = "-",
+        color = Orange,
+        weight = 1f,
+        action = CalculatorAction.Operation(CalculatorOperation.Subtract)
+    ),
+
+    Button(symbol = "3", color = MediumGray, weight = 1f, action = CalculatorAction.Number(3)),
+    Button(symbol = "2", color = MediumGray, weight = 1f, action = CalculatorAction.Number(2)),
+    Button(symbol = "1", color = MediumGray, weight = 1f, action = CalculatorAction.Number(1)),
+    Button(
+        symbol = "+",
+        color = Orange,
+        weight = 1f,
+        action = CalculatorAction.Operation(CalculatorOperation.Add)
+    ),
+
+    Button(symbol = "0", color = MediumGray, weight = 1f, action = CalculatorAction.Number(0)),
+    Button(symbol = ".", color = MediumGray, weight = 1f, action = CalculatorAction.Decimal),
+    Button(symbol = ".", color = MediumGray, weight = 1f, action = CalculatorAction.Decimal),
+    Button(symbol = "=", color = Orange, weight = 1f, action = CalculatorAction.Calculate),
+)
+
 
 @Composable
 fun Calculator(
@@ -59,192 +117,32 @@ fun Calculator(
                 maxLines = 2,
             )
 
-            CalculatorRow(spacing = buttonSpacing) {
-                CalculatorButton(symbol = "AC", modifier = Modifier
-                    .background(
-                        color = LightGray
-                    )
-                    .aspectRatio(2f)
-                    .weight(2f), onClick = {
-                    onAction(CalculatorAction.Clear)
-                })
-
-                CalculatorButton(symbol = "Del", modifier = Modifier
-                    .background(
-                        color = MediumGray,
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Delete)
-                })
-
-                CalculatorButton(symbol = "/", modifier = Modifier
-                    .background(
-                        color = Orange,
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Operation(CalculatorOperation.Divide))
-                })
-            }
-
-            CalculatorRow(spacing = buttonSpacing) {
-                CalculatorButton(symbol = "7", modifier = Modifier
-                    .background(
-                        color = MediumGray,
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Number(7))
-                })
-
-                CalculatorButton(symbol = "8", modifier = Modifier
-                    .background(
-                        color = MediumGray
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Number(8))
-                })
-
-                CalculatorButton(symbol = "9", modifier = Modifier
-                    .background(
-                        color = MediumGray
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Number(9))
-                })
-
-                CalculatorButton(symbol = "x", modifier = Modifier
-                    .background(
-                        color = Orange,
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Operation(CalculatorOperation.Multiply))
-                })
-            }
-
-            CalculatorRow(spacing = buttonSpacing) {
-                CalculatorButton(symbol = "4", modifier = Modifier
-                    .background(
-                        color = MediumGray
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Number(4))
-                })
-
-                CalculatorButton(symbol = "5", modifier = Modifier
-                    .background(
-                        color = MediumGray
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Number(5))
-                })
-
-                CalculatorButton(symbol = "6", modifier = Modifier
-                    .background(
-                        color = MediumGray,
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Number(6))
-                })
-
-                CalculatorButton(symbol = "-", modifier = Modifier
-                    .background(
-                        color = Orange,
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Operation(CalculatorOperation.Subtract))
-                })
-            }
-
-            CalculatorRow(spacing = buttonSpacing) {
-                CalculatorButton(symbol = "3", modifier = Modifier
-                    .background(
-                        color = MediumGray
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Number(3))
-                })
-
-                CalculatorButton(symbol = "2", modifier = Modifier
-                    .background(
-                        color = MediumGray
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Number(2))
-                })
-
-                CalculatorButton(symbol = "1", modifier = Modifier
-                    .background(
-                        color = MediumGray,
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Number(1))
-                })
-
-                CalculatorButton(symbol = "+", modifier = Modifier
-                    .background(
-                        color = Orange,
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Operation(CalculatorOperation.Add))
-                })
-            }
-
-            CalculatorRow(spacing = buttonSpacing) {
-                CalculatorButton(symbol = "0", modifier = Modifier
-                    .background(
-                        color = MediumGray
-                    )
-                    .aspectRatio(2f)
-                    .weight(2f), onClick = {
-                    onAction(CalculatorAction.Number(0))
-                })
-
-                CalculatorButton(symbol = ".", modifier = Modifier
-                    .background(
-                        color = MediumGray,
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Decimal)
-                })
-
-                CalculatorButton(symbol = "=", modifier = Modifier
-                    .background(
-                        color = Orange,
-                    )
-                    .aspectRatio(1f)
-                    .weight(1f), onClick = {
-                    onAction(CalculatorAction.Calculate)
-                })
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(count = 4),
+                verticalArrangement = Arrangement.spacedBy(buttonSpacing),
+                horizontalArrangement = Arrangement.spacedBy(buttonSpacing)
+            ) {
+                items(buttons) {
+                    CalculatorButton(symbol = it.symbol, modifier = Modifier
+                        .background(
+                            color = it.color,
+                        )
+                        .aspectRatio(it.weight)
+                        .weight(it.weight), onClick = {
+                        onAction(it.action)
+                    })
+                }
             }
         }
     }
 }
 
-@Composable
-fun CalculatorRow(
-    spacing: Dp,
-    content: @Composable RowScope.() -> Unit,
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(spacing)
-    ) {
-        content()
-    }
-}
+data class Button(
+    val symbol: String,
+    val color: Color,
+    val weight: Float,
+    val action: CalculatorAction,
+)
 
 @Preview(showBackground = true)
 @Composable

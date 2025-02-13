@@ -4,6 +4,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import kotlin.math.pow
 
 class CalculatorViewModel : ViewModel() {
     var state by mutableStateOf(CalculatorState())
@@ -49,6 +50,7 @@ class CalculatorViewModel : ViewModel() {
             CalculatorOperation.Multiply -> number1 * number2
             CalculatorOperation.Subtract -> number1 - number2
             CalculatorOperation.Add -> number1 + number2
+            CalculatorOperation.Power -> number1.pow(number2)
             else -> 0.0
         }
 
